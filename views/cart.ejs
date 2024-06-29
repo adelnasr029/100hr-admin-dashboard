@@ -1,0 +1,53 @@
+<%- include('./partials/logged-in-header') %>
+<main class="container">
+    <div class="cartTab">
+        <h1>Shopping Cart</h1>
+        <div class="listCart">
+                    <% for(let i=0; i < selectedItems.length; i++) {%>
+                        <div class="item">
+                            <div class="image">
+                                <img src="<%= `/imgs/${selectedItems[i].image}`%>" alt="">
+                            </div>
+                            <div class="name"><%= selectedItems[i].name %></div>
+                            <div class="totalPrice"><%= selectedItems[i].price %></div>
+                            <div class="quantity">
+                                
+                                <form  action="/cart/delete/<%=selectedItems[i]._id%>?_method=DELETE" method="POST">
+                                    <button type="submit" style="width:30px" class="btn btn-primary fa fa-minus btn-sm"></button>
+                                  </form>
+
+                                <span ><%= selectedItems[i].count %></span>
+
+                                <form  action="/cart/increment/<%=selectedItems[i].name%>" method="POST">
+                                        <button type="submit" style="width:30px" class="btn btn-primary fa fa-plus btn-sm"></button>
+                                      </form>
+
+                                <form action="/cart/deleteBtn/<%=selectedItems[i].name%>?_method=DELETE" method="POST">
+                                <button  class="btn btn-primary fa fa-trash btn-sm" type="submit"></button>
+                              </form>
+                            </div>
+                        </div>
+                <% } %>
+        </div>
+        
+        <div class="btn">
+            <% let total = 0 %>
+            <% for(let i=0; i < selectedItems.length; i++) {%>
+                    <% total +=selectedItems[i].count * selectedItems[i].price %>
+                    <% } %>
+        </div>
+        <div>
+            <span>total: <%= total %>$</span>
+        </div>
+    </div>
+
+    <div class="cartBtn">
+        <button type="button" class="btn btn-outline-primary">
+            <a href="/menu">Back To Shopping</a> 
+        </button>
+        <button type="button" class="btn btn-primary">
+            <a href="/cart/submitOrder">Check Out</a> 
+        </button>
+    </div>
+</main>
+<%- include('./partials/footer') %>

@@ -1,0 +1,72 @@
+<%- include('./partials/logged-in-header') %>
+<main class="container">
+  <h1>Proceed Your Order</h1>
+
+    <div class="row justify-content-center">
+        <div class="listCart">
+            <% for(let i=0; i < selectedItems.length; i++) {%>
+                <div class="item">
+                    <div class="image">
+                        <img src="<%= `/imgs/${selectedItems[i].image}`%>" alt="">
+                    </div>
+                    <div class="name"><%= selectedItems[i].name %></div>
+                    <div class="totalPrice"><%= selectedItems[i].price %></div>
+                    <div class="quantity">
+                        
+                        <form  action="/cart/delete/<%=selectedItems[i]._id%>?_method=DELETE" method="POST">
+                            <button type="submit" style="width:30px" class="btn btn-primary fa fa-minus btn-sm"></button>
+                          </form>
+
+                        <span ><%= selectedItems[i].count %></span>
+
+                        <form  action="/cart/increment/<%=selectedItems[i].name%>" method="POST">
+                                <button type="submit" style="width:30px" class="btn btn-primary fa fa-plus btn-sm"></button>
+                              </form>
+
+                        <form action="/cart/deleteBtn/<%=selectedItems[i].name%>?_method=DELETE" method="POST">
+                        <button  class="btn btn-primary fa fa-trash btn-sm" type="submit" style="width:30px"></button>
+                      </form>
+                    </div>
+                </div>
+        <% } %>
+
+          <div class="btn">
+            <% let total = 0 %>
+            <% for(let i=0; i < selectedItems.length; i++) {%>
+            <% total +=selectedItems[i].count * selectedItems[i].price %>
+            <% } %>
+          </div>
+<div>
+    <span>total: <%= total %>$</span>
+</div>
+</div>
+        <section class="col-6 mt-5">
+            <form action="/order/submitOrder" method="POST">
+                <div class="mb-3">
+                    <label for="firstName" class="form-label">First Name</label>
+                    <input type="text" class="form-control" id="firstName" name="firstName" required>
+                    <label for="userName" class="form-label">Second Name</label>
+                    <input type="text" class="form-control" id="userName" name="secondName" required>
+                  </div>
+                <div class="mb-3">
+                  <label for="location" class="form-label">Location</label>
+                  <input type="text" class="form-control" id="location" name="location" placeholder="Enter the place where to receive" required>
+                <div class="mb-3">
+                  <label for="password" class="form-label">Phone Number</label>
+                  <input type="phone" class="form-control" id="password" name="phoneNo" placeholder="To contact when order is done" required>
+                </div>
+                <button type="submit" class="btn btn-primary" value="Upload">Send Order</button>
+              </form>
+        </section>
+        <div class="cartBtn">
+          <button type="button" class="btn btn-outline-primary">
+            <a href="/cart">Back To Cart</a> 
+          </button>
+      </div>
+    </div>
+  </main>
+
+<%- include('./partials/footer') %>
+
+
+

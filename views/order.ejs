@@ -1,0 +1,32 @@
+<%- include('./partials/logged-in-header') %>
+  <main class="container">
+
+ <h1>Orders</h1>
+ <div class="row justify-content-center">
+    <div class="listCart">
+        <% orderedItem.forEach( (el) => {%>
+            <div class="item">
+                <div class="name"><%= el.fullName %></div>
+                <div class="name"><%= el.phoneNo %></div>
+                <div class="name"><%= el.location %></div>
+                <div class="quantity"><%= el.itemsCount %></div>
+                <div class="totalPrice"><%= el.total %>$</div>
+                <div class="quantity">
+                    <form action="/order/complete/<%=el._id%>?_method=PUT" method="POST">
+                    <button  class="btn btn-primary fa fa-trash btn-sm" type="submit" style="width:30px"></button>
+                  </form>
+                </div>
+            </div>
+
+          <% el.items.forEach(item => { %>
+            <div class="order">
+              <div class="name"><%= item.name %></div>
+              <div class="name"><%= item.price %>$</div>
+              <div class="quantity"><%= item.count %></div>    
+            </div>
+           
+               <% }); %>
+            <% })%>
+    </div>
+  </main>
+<%- include('./partials/footer') %>
